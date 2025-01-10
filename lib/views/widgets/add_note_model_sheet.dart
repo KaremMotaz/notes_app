@@ -1,34 +1,39 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:notes_app/views/widgets/custom_button.dart';
-import 'package:notes_app/views/widgets/custom_text_field.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:notes_app/cubits/add_note_cubit/add_note_cubit.dart';
+import 'package:notes_app/views/widgets/add_note_form.dart';
 
 class AddNoteModelSheet extends StatelessWidget {
   const AddNoteModelSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController titleController = TextEditingController();
-    TextEditingController contentController = TextEditingController();
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            CustomTextField(
-              hintText: "Title",
-              controller: titleController,
+    return BlocProvider(
+      create: (context) => AddNoteCubit(),
+      child: BlocConsumer<AddNoteCubit, AddNoteState>(
+        listener: (context, state) {
+          if (state is AddNoteLoaded) {
+            Navigator.pop(context);
+            log("Success");
+          }
+          if (state is AddNoteError) {
+            log(state.errorMessage);
+          }
+        },
+        builder: (context, state) {
+          return  AbsorbPointer(
+            absorbing: state is AddNoteLoading ? true : false,
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
+              child: SingleChildScrollView(
+                child: AddNoteForm(),
+              ),
             ),
-            CustomTextField(
-              hintText: "Content",
-              controller: contentController,
-              maxLines: 6,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            CustomButton(text: "Add", onTap: () {})
-          ],
-        ),
+          );
+        },
       ),
     );
   }

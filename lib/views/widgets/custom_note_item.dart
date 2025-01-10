@@ -42,7 +42,7 @@ class CustomNoteItem extends StatelessWidget {
               subtitle: Text(
                 "Build your career with Karim Motaz",
                 style: TextStyle(
-                  color: Colors.black.withOpacity(0.5),
+                  color: Colors.black.withValues(alpha: 0.4),
                   fontSize: 16,
                 ),
               ),
@@ -63,7 +63,7 @@ class CustomNoteItem extends StatelessWidget {
               child: Text(
                 "may 23.2025",
                 style: TextStyle(
-                  color: Colors.black.withOpacity(0.5),
+                  color: Colors.black.withValues(alpha: 0.4),
                 ),
               ),
             ),

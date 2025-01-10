@@ -11,7 +11,7 @@ class CustomIcon extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.05),
+        color: Colors.white.withValues(alpha: 0.1),
         borderRadius: const BorderRadius.all(
           Radius.circular(8),
         ),
