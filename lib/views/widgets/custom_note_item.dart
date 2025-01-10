@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/views/edit_note_view.dart';
 
 class CustomNoteItem extends StatelessWidget {
-  const CustomNoteItem({super.key});
-
+  const CustomNoteItem({super.key,required this.note});
+  final NoteModel note;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -21,7 +22,7 @@ class CustomNoteItem extends StatelessWidget {
         padding:
             const EdgeInsets.only(bottom: 24, top: 24, left: 24, right: 12),
         decoration: BoxDecoration(
-          color: const Color(0xffffcd7a),
+          color: Color(note.color),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -29,18 +30,18 @@ class CustomNoteItem extends StatelessWidget {
           children: [
             ListTile(
               contentPadding: EdgeInsets.zero,
-              title: const Padding(
-                padding: EdgeInsets.only(bottom: 16),
+              title:  Padding(
+                padding: const EdgeInsets.only(bottom: 16),
                 child: Text(
-                  "Flutter tips",
-                  style: TextStyle(
+                  note.title,
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 26,
                   ),
                 ),
               ),
               subtitle: Text(
-                "Build your career with Karim Motaz",
+                note.content,
                 style: TextStyle(
                   color: Colors.black.withValues(alpha: 0.4),
                   fontSize: 16,
@@ -49,7 +50,9 @@ class CustomNoteItem extends StatelessWidget {
               trailing: Padding(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    note.delete();
+                  },
                   iconSize: 24,
                   color: Colors.black,
                   icon: const Icon(
@@ -61,7 +64,7 @@ class CustomNoteItem extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 12, top: 8),
               child: Text(
-                "may 23.2025",
+                note.date,
                 style: TextStyle(
                   color: Colors.black.withValues(alpha: 0.4),
                 ),
