@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/constants/constants.dart';
 import 'package:notes_app/cubits/add_note_cubit/add_note_cubit.dart';
+import 'package:notes_app/functions/color_to_int.dart';
 import 'package:notes_app/views/widgets/color_item.dart';
 
 class AddColorsListView extends StatefulWidget {
@@ -25,7 +26,7 @@ class _AddColorsListViewState extends State<AddColorsListView> {
             onTap: () {
               currentIndex = index;
               BlocProvider.of<AddNoteCubit>(context).color =
-                  kColorsList[index].value;
+                  AppColorUtils.colorToInt(kColorsList[index]);
               setState(() {});
             },
             child: ColorItem(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/constants/constants.dart';
+import 'package:notes_app/functions/color_to_int.dart';
 import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/views/widgets/color_item.dart';
 
@@ -33,7 +34,8 @@ class _EditColorsListViewState extends State<EditColorsListView> {
           return GestureDetector(
             onTap: () {
               currentIndex = index;
-              widget.noteModel.color = kColorsList[index].value;
+              widget.noteModel.color =
+                  AppColorUtils.colorToInt(kColorsList[index]);
               setState(() {});
             },
             child: ColorItem(
