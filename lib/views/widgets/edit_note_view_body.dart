@@ -1,31 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/cubits/notes_cubit/get_notes_cubit.dart';
+import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/views/widgets/custom_appbar.dart';
 import 'package:notes_app/views/widgets/custom_text_field.dart';
 
-class EditNoteViewBody extends StatelessWidget {
-  const EditNoteViewBody({super.key});
+class EditNoteViewBody extends StatefulWidget {
+  const EditNoteViewBody({super.key, required this.noteModel});
+  final NoteModel noteModel;
+
+  @override
+  State<EditNoteViewBody> createState() => _EditNoteViewBodyState();
+}
+
+class _EditNoteViewBodyState extends State<EditNoteViewBody> {
+  String? title, content;
 
   @override
   Widget build(BuildContext context) {
-
-    return const Padding(
-      padding: EdgeInsets.all(16),
+    return Padding(
+      padding: const EdgeInsets.all(16),
       child: Column(
         children: [
           CustomAppbar(
             customIcon: Icons.done,
             appbarTitle: 'Edit Note',
-            iconsize: 25,
+            onTap: () {
+              widget.noteModel.title = title ?? widget.noteModel.title;
+              widget.noteModel.content = content ?? widget.noteModel.content;
+              widget.noteModel.save();
+              BlocProvider.of<GetNotesCubit>(context).getAllNotes();
+              Navigator.pop(context);
+            },
           ),
-          SizedBox(
+          const SizedBox(
             height: 12,
           ),
           CustomTextField(
-            hintText: "Title",
+            onChanged: (value) {
+              title = value;
+            },
+            hintText: widget.noteModel.title,
+            controller: TextEditingController(text: widget.noteModel.title),
           ),
           CustomTextField(
-            hintText: "Content",
+            onChanged: (value) {
+              content = value;
+            },
+            hintText: widget.noteModel.content,
             maxLines: 6,
+            controller: TextEditingController(text: widget.noteModel.content),
           ),
         ],
       ),

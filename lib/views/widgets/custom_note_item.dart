@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:notes_app/cubits/notes_cubit/get_notes_cubit.dart';
 import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/views/edit_note_view.dart';
 
 class CustomNoteItem extends StatelessWidget {
-  const CustomNoteItem({super.key,required this.note});
-  final NoteModel note;
+  const CustomNoteItem({super.key, required this.noteModel});
+  final NoteModel noteModel;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -13,7 +15,9 @@ class CustomNoteItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const EditNoteView(),
+            builder: (context) => EditNoteView(
+              noteModel: noteModel,
+            ),
           ),
         );
       },
@@ -22,7 +26,7 @@ class CustomNoteItem extends StatelessWidget {
         padding:
             const EdgeInsets.only(bottom: 24, top: 24, left: 24, right: 12),
         decoration: BoxDecoration(
-          color: Color(note.color),
+          color: Color(noteModel.color),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -30,10 +34,10 @@ class CustomNoteItem extends StatelessWidget {
           children: [
             ListTile(
               contentPadding: EdgeInsets.zero,
-              title:  Padding(
+              title: Padding(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: Text(
-                  note.title,
+                  noteModel.title,
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 26,
@@ -41,7 +45,7 @@ class CustomNoteItem extends StatelessWidget {
                 ),
               ),
               subtitle: Text(
-                note.content,
+                noteModel.content,
                 style: TextStyle(
                   color: Colors.black.withValues(alpha: 0.4),
                   fontSize: 16,
@@ -51,7 +55,8 @@ class CustomNoteItem extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 16),
                 child: IconButton(
                   onPressed: () {
-                    note.delete();
+                    noteModel.delete();
+                    BlocProvider.of<GetNotesCubit>(context).getAllNotes();
                   },
                   iconSize: 24,
                   color: Colors.black,
@@ -64,7 +69,7 @@ class CustomNoteItem extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 12, top: 8),
               child: Text(
-                note.date,
+                noteModel.date,
                 style: TextStyle(
                   color: Colors.black.withValues(alpha: 0.4),
                 ),
